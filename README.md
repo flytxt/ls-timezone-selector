@@ -1,4 +1,4 @@
-# ls-timezone-selector
+# ls-timezone-selector [![Build Status](https://travis-ci.org/flytxt/ls-timezone-selector.svg?branch=master)](https://travis-ci.org/flytxt/ls-timezone-selector)
 `<ls-timezone-selector>` is a time zone selector for Labor Sync. It may be used as a form element.  
 
 Typically, <ls-timezone-selector> is used in a form element.  
