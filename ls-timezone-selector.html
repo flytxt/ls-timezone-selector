@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright (c) 2015 Labor Sync LLC. All rights reserved.
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-validatable-behavior/iron-validatable-behavior.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+
+<!--
+# ls-timezone-selector
+`<ls-timezone-selector>` is a time zone selector for Labor Sync. It may be used as a form element.
+
+Typically, <ls-timezone-selector> is used in a form element.
+
+```html
+    <ls-timezone-selector name="timezone" label="Time Zone" value="America/New_York">
+    	</ls-timezone-selector>
+```
+
+##Properties:
+    name: Name of input
+    value: Value of the dropdown
+    label: Label for the dropdown
+    error-message: Message to display when selection is invalid
+    required: Whether selection can be blank/not a value
+    invalid: True if the last call to validate is invalid.
+    horizontal-align: The orientation against which to align the menu dropdown horizontally relative to the dropdown trigger.
+
+##Methods:
+    validate(): sets `invalid` to true if `required` is truthy and value is blank.
+
+Todo: Add population of timezone options from ajax request
+-->
+
+<dom-module id="ls-timezone-selector">
+
+    <template>
+        <paper-dropdown-menu
+            name="[[name]]"
+            label="[[label]]"
+            error-message="[[errorMessage]]"
+            invalid="{{invalid}}"
+            required="[[required]]"
+            horizontal-align="[[horizontalAlign]]"
+            noink="[[noink]]">
+            <paper-listbox
+                class="dropdown-content"
+                attr-for-selected="value"
+                selected="{{value}}">
+                <template is="dom-repeat" items="[[timezones]]">
+                    <paper-item
+                        value$="[[item.value]]">[[item.option]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
+    </template>
+
+</dom-module>
+
+<script>
+
+    Polymer({
+
+        is: 'ls-timezone-selector',
+
+        behaviors: [
+          Polymer.IronValidatableBehavior
+        ],
+
+        properties: {
+            name: String,
+
+            value: {
+                type: String,
+                notify: true
+            },
+
+            /**
+             * Array of options and values for selector
+             * @array {{option: String, value: String}}
+             * */
+            timezones: {
+                type: Array,
+                value: [{"option":"(GMT-11:00) Midway Island","value":"Pacific\/Midway"},{"option":"(GMT-10:00) Hawaii","value":"Pacific\/Honolulu"},{"option":"(GMT-09:00) Alaska","value":"America\/Anchorage"},{"option":"(GMT-08:00) Pacific Time (US and Canada)","value":"America\/Los_Angeles"},{"option":"(GMT-08:00) Tijuana, Baja California","value":"America\/Tijuana"},{"option":"(GMT-07:00) Mountain Time (US and Canada)","value":"America\/Denver"},{"option":"(GMT-07:00) Chihuahua","value":"America\/Chihuahua"},{"option":"(GMT-07:00) Mazatlan","value":"America\/Mazatlan"},{"option":"(GMT-07:00) Arizona","value":"America\/Phoenix"},{"option":"(GMT-06:00) Saskatchewan","value":"America\/Regina"},{"option":"(GMT-06:00) Central America","value":"America\/Tegucigalpa"},{"option":"(GMT-06:00) Central Time (US and Canada)","value":"America\/Chicago"},{"option":"(GMT-06:00) Mexico City","value":"America\/Mexico_City"},{"option":"(GMT-06:00) Monterrey","value":"America\/Monterrey"},{"option":"(GMT-05:00) Eastern Time (US and Canada)","value":"America\/New_York"},{"option":"(GMT-05:00) Bogota","value":"America\/Bogota"},{"option":"(GMT-05:00) Lima","value":"America\/Lima"},{"option":"(GMT-05:00) Rio Branco","value":"America\/Rio_Branco"},{"option":"(GMT-05:00) Indiana (East)","value":"America\/Indiana\/Indianapolis"},{"option":"(GMT-04:30) Caracas","value":"America\/Caracas"},{"option":"(GMT-04:00) Atlantic Time (Canada)","value":"America\/Halifax"},{"option":"(GMT-04:00) Manaus","value":"America\/Manaus"},{"option":"(GMT-04:00) Santiago","value":"America\/Santiago"},{"option":"(GMT-04:00) La Paz","value":"America\/La_Paz"},{"option":"(GMT-03:30) Newfoundland","value":"America\/St_Johns"},{"option":"(GMT-03:00) Georgetown","value":"America\/Argentina\/Buenos_Aires"},{"option":"(GMT-03:00) Brasilia","value":"America\/Sao_Paulo"},{"option":"(GMT-03:00) Greenland","value":"America\/Godthab"},{"option":"(GMT-03:00) Montevideo","value":"America\/Montevideo"},{"option":"(GMT-02:00) Mid-Atlantic","value":"Atlantic\/South_Georgia"},{"option":"(GMT-01:00) Azores","value":"Atlantic\/Azores"},{"option":"(GMT-01:00) Cape Verde Is.","value":"Atlantic\/Cape_Verde"},{"option":"(GMT) Dublin","value":"Europe\/Dublin"},{"option":"(GMT) Lisbon","value":"Europe\/Lisbon"},{"option":"(GMT) London","value":"Europe\/London"},{"option":"(GMT) Monrovia","value":"Africa\/Monrovia"},{"option":"(GMT) Reykjavik","value":"Atlantic\/Reykjavik"},{"option":"(GMT) Casablanca","value":"Africa\/Casablanca"},{"option":"(GMT+01:00) Belgrade","value":"Europe\/Belgrade"},{"option":"(GMT+01:00) Bratislava","value":"Europe\/Bratislava"},{"option":"(GMT+01:00) Budapest","value":"Europe\/Budapest"},{"option":"(GMT+01:00) Ljubljana","value":"Europe\/Ljubljana"},{"option":"(GMT+01:00) Prague","value":"Europe\/Prague"},{"option":"(GMT+01:00) Sarajevo","value":"Europe\/Sarajevo"},{"option":"(GMT+01:00) Skopje","value":"Europe\/Skopje"},{"option":"(GMT+01:00) Warsaw","value":"Europe\/Warsaw"},{"option":"(GMT+01:00) Zagreb","value":"Europe\/Zagreb"},{"option":"(GMT+01:00) Brussels","value":"Europe\/Brussels"},{"option":"(GMT+01:00) Copenhagen","value":"Europe\/Copenhagen"},{"option":"(GMT+01:00) Madrid","value":"Europe\/Madrid"},{"option":"(GMT+01:00) Paris","value":"Europe\/Paris"},{"option":"(GMT+01:00) West Central Africa","value":"Africa\/Algiers"},{"option":"(GMT+01:00) Amsterdam","value":"Europe\/Amsterdam"},{"option":"(GMT+01:00) Berlin","value":"Europe\/Berlin"},{"option":"(GMT+01:00) Rome","value":"Europe\/Rome"},{"option":"(GMT+01:00) Stockholm","value":"Europe\/Stockholm"},{"option":"(GMT+01:00) Vienna","value":"Europe\/Vienna"},{"option":"(GMT+02:00) Minsk","value":"Europe\/Minsk"},{"option":"(GMT+02:00) Cairo","value":"Africa\/Cairo"},{"option":"(GMT+02:00) Helsinki","value":"Europe\/Helsinki"},{"option":"(GMT+02:00) Riga","value":"Europe\/Riga"},{"option":"(GMT+02:00) Sofia","value":"Europe\/Sofia"},{"option":"(GMT+02:00) Tallinn","value":"Europe\/Tallinn"},{"option":"(GMT+02:00) Vilnius","value":"Europe\/Vilnius"},{"option":"(GMT+02:00) Athens","value":"Europe\/Athens"},{"option":"(GMT+02:00) Bucharest","value":"Europe\/Bucharest"},{"option":"(GMT+02:00) Istanbul","value":"Europe\/Istanbul"},{"option":"(GMT+02:00) Jerusalem","value":"Asia\/Jerusalem"},{"option":"(GMT+02:00) Amman","value":"Asia\/Amman"},{"option":"(GMT+02:00) Beirut","value":"Asia\/Beirut"},{"option":"(GMT+02:00) Windhoek","value":"Africa\/Windhoek"},{"option":"(GMT+02:00) Harare","value":"Africa\/Harare"},{"option":"(GMT+03:00) Kuwait","value":"Asia\/Kuwait"},{"option":"(GMT+03:00) Riyadh","value":"Asia\/Riyadh"},{"option":"(GMT+03:00) Baghdad","value":"Asia\/Baghdad"},{"option":"(GMT+03:00) Nairobi","value":"Africa\/Nairobi"},{"option":"(GMT+03:00) Tbilisi","value":"Asia\/Tbilisi"},{"option":"(GMT+03:00) Moscow","value":"Europe\/Moscow"},{"option":"(GMT+03:00) Volgograd","value":"Europe\/Volgograd"},{"option":"(GMT+03:30) Tehran","value":"Asia\/Tehran"},{"option":"(GMT+04:00) Muscat","value":"Asia\/Muscat"},{"option":"(GMT+04:00) Baku","value":"Asia\/Baku"},{"option":"(GMT+04:00) Yerevan","value":"Asia\/Yerevan"},{"option":"(GMT+05:00) Ekaterinburg","value":"Asia\/Yekaterinburg"},{"option":"(GMT+05:00) Karachi","value":"Asia\/Karachi"},{"option":"(GMT+05:00) Tashkent","value":"Asia\/Tashkent"},{"option":"(GMT+05:30) Calcutta","value":"Asia\/Kolkata"},{"option":"(GMT+05:30) Sri Jayawardenepura","value":"Asia\/Colombo"},{"option":"(GMT+06:00) Dhaka","value":"Asia\/Dhaka"},{"option":"(GMT+06:00) Almaty","value":"Asia\/Almaty"},{"option":"(GMT+06:00) Novosibirsk","value":"Asia\/Novosibirsk"},{"option":"(GMT+06:30) Yangon (Rangoon)","value":"Asia\/Rangoon"},{"option":"(GMT+07:00) Krasnoyarsk","value":"Asia\/Krasnoyarsk"},{"option":"(GMT+07:00) Bangkok","value":"Asia\/Bangkok"},{"option":"(GMT+07:00) Jakarta","value":"Asia\/Jakarta"},{"option":"(GMT+08:00) Beijing","value":"Asia\/Brunei"},{"option":"(GMT+08:00) Hong Kong","value":"Asia\/Hong_Kong"},{"option":"(GMT+08:00) Urumqi","value":"Asia\/Urumqi"},{"option":"(GMT+08:00) Irkutsk","value":"Asia\/Irkutsk"},{"option":"(GMT+08:00) Ulaan Bataar","value":"Asia\/Ulaanbaatar"},{"option":"(GMT+08:00) Kuala Lumpur","value":"Asia\/Kuala_Lumpur"},{"option":"(GMT+08:00) Singapore","value":"Asia\/Singapore"},{"option":"(GMT+08:00) Taipei","value":"Asia\/Taipei"},{"option":"(GMT+08:00) Perth","value":"Australia\/Perth"},{"option":"(GMT+09:00) Seoul","value":"Asia\/Seoul"},{"option":"(GMT+09:00) Tokyo","value":"Asia\/Tokyo"},{"option":"(GMT+09:00) Yakutsk","value":"Asia\/Yakutsk"},{"option":"(GMT+09:30) Darwin","value":"Australia\/Darwin"},{"option":"(GMT+09:30) Adelaide","value":"Australia\/Adelaide"},{"option":"(GMT+10:00) Melbourne","value":"Australia\/Melbourne"},{"option":"(GMT+10:00) Sydney","value":"Australia\/Sydney"},{"option":"(GMT+10:00) Brisbane","value":"Australia\/Brisbane"},{"option":"(GMT+10:00) Hobart","value":"Australia\/Hobart"},{"option":"(GMT+10:00) Vladivostok","value":"Asia\/Vladivostok"},{"option":"(GMT+10:00) Guam","value":"Pacific\/Guam"},{"option":"(GMT+10:00) Port Moresby","value":"Pacific\/Port_Moresby"},{"option":"(GMT+11:00) Magadan","value":"Asia\/Magadan"},{"option":"(GMT+12:00) Fiji","value":"Pacific\/Fiji"},{"option":"(GMT+12:00) Kamchatka","value":"Asia\/Kamchatka"},{"option":"(GMT+12:00) Auckland","value":"Pacific\/Auckland"},{"option":"(GMT+13:00) Nukualofa","value":"Pacific\/Tongatapu"}]
+            },
+
+            label: {
+                type:String,
+                value: "Time Zone"
+            },
+
+            errorMessage: {
+                type: String,
+                value: "Please select a timezone."
+            },
+
+            horizontalAlign: {
+                type: String,
+                value: "right"
+            },
+
+            required: Boolean,
+
+            noink: {
+                type: Boolean,
+                value: false
+            },
+
+            invalid: {
+                type: Boolean,
+                notify: true,
+                reflectToAttribute: true
+            }
+
+        },
+        _getValidity: function(value){
+            var invalid = !this.value; //TODO: search array of objects for valid timezones
+            return !invalid;
+        }
+    });
+
+</script>
